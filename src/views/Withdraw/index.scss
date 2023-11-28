@@ -1,0 +1,40 @@
+.withdraw {
+  .content {
+    @apply text-white py-10 flex flex-col mx-auto;
+    max-width: 529px;
+    min-height: calc(100vh - 10rem);
+
+    &__box {
+      @apply p-4 rounded-lg w-full flex flex-col gap-8 pb-8;
+      background: #2d2e35;
+
+      &__title {
+        @apply font-semibold flex items-center relative justify-center;
+        font-size: 32px;
+        .icon-left-arrow {
+          @apply absolute w-6 h-6 left-6 cursor-pointer;
+        }
+      }
+    }
+
+    .withdraw__input {
+      @apply relative flex items-center;
+
+      input {
+        @apply w-full h-full pl-4 pr-28 text-base py-3 rounded-lg border border-solid border-grey500 text-grey25 outline-none;
+        &::placeholder {
+          color: #888d9b;
+        }
+        background-color: #202024;
+      }
+
+      &__max {
+        @apply absolute right-4 flex items-center gap-4;
+        button {
+          @apply py-1 px-1.5 rounded-lg;
+          background-color: rgba($color: #00ed7b, $alpha: 0.1);
+        }
+      }
+    }
+  }
+}

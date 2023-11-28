@@ -1,0 +1,55 @@
+.knootDetail {
+  position: relative;
+  gap: 13px;
+  border: 1px solid #48484a;
+  border-radius: 16px;
+  background: #121212;
+  padding: 40px 24px 16px;
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.title {
+  margin-bottom: 16px;
+  color: #afb3ba;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.property {
+  color: #afb3ba;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.value {
+  color: #fcfcfd;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.highlightValue {
+  color: #00ed7b;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.hoverCardWrapper {
+  position: relative;
+}

@@ -1,0 +1,1 @@
+export const BS_CHART_DEFAULT_LINE_COLOR = '#00ED7B'

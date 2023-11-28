@@ -1,0 +1,55 @@
+.leaderBoardDetail {
+  background: #121212;
+}
+
+.content {
+  margin-top: 74px;
+  margin-inline: auto;
+  max-width: min(1280px, 90%);
+}
+
+.loadingIcon {
+  animation: rotation 3s infinite linear;
+}
+
+.centerLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 78vh;
+}
+
+.sections {
+  margin-top: 48px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.secondSection {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 8px;
+}
+
+.title {
+  width: 400px;
+  overflow: hidden;
+  color: #fcfcfd;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}

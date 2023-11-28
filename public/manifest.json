@@ -1,0 +1,11 @@
+{
+  "short_name": "LSD Networks",
+  "name": "LSD Networks dApp",
+  "iconPath": "favicon.svg",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "providedBy": { "name": "Blockswap Network", "url": "https://www.blockswap.network/" },
+  "description": "Stake a validator with 4 ETH. Start an LSD network in 60 seconds. Unique yield with fungible derivatives. Empowering home stakers."
+}
