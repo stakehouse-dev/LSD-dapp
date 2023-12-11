@@ -72,20 +72,21 @@ export const useRewardBalance = (mode: WITHDRAW_MODE, selectedToken: TokenT) => 
             )
             giantDETHBalance = `${Number(rawGiantBalance)}`
             ////////////////////////////////////////////////////////////////////////////////////////
-            const savETHVaultAddresses = protectedBatches.map(
-              (pBatch: any) => pBatch.vaultLPToken.liquidStakingNetwork.savETHPool
-            )
-            const lpTokenAddresses = protectedBatches.map((pBatch: any) => [pBatch.vaultLPToken.id])
-            const result = await sdk?.wizard.previewPartialWithdrawalClaimableETH(
-              address,
-              savETHVaultAddresses,
-              lpTokenAddresses
-            )
-            giantETHBalance = ethers.utils.formatEther(result)
-
             if (selectedToken === DETH_WITHDRAW_TOKENS[0]) {
               giantBalance = Number(rawGiantBalance)
             } else if (protectedBatches) {
+              const savETHVaultAddresses = protectedBatches.map(
+                (pBatch: any) => pBatch.vaultLPToken.liquidStakingNetwork.savETHPool
+              )
+              const lpTokenAddresses = protectedBatches.map((pBatch: any) => [
+                pBatch.vaultLPToken.id
+              ])
+              const result = await sdk?.wizard.previewPartialWithdrawalClaimableETH(
+                address,
+                savETHVaultAddresses,
+                lpTokenAddresses
+              )
+              giantETHBalance = ethers.utils.formatEther(result)
               giantBalance = Number(ethers.utils.formatEther(result))
             }
             totalBalance += giantBalance

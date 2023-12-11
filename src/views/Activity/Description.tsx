@@ -350,6 +350,45 @@ const Description: FC<{ activity: any; blsKeyToTxHashes: any }> = ({
           </a>
         </span>
       )
+    case ACTIVITY_TYPE.NODE_OPERATOR_CLAIMED_UNSTAKED_ETH:
+      return (
+        <span className="description">
+          Node Operator Claimed Unstaked ETH{' '}
+          <a
+            href={makeEtherscanLink(activity.tx)}
+            target="_blank"
+            rel="noreferrer"
+            className={'text-primary'}>
+            (check TX here)
+          </a>
+        </span>
+      )
+    case ACTIVITY_TYPE.GIANT_SAVETH_CLAIMED_ETH_FROM_RAGEQUIT:
+      return (
+        <span className="description">
+          Claimed ragequit ETH from Giant SavETH Pool{' '}
+          <a
+            href={makeEtherscanLink(activity.tx)}
+            target="_blank"
+            rel="noreferrer"
+            className={'text-primary'}>
+            (check TX here)
+          </a>
+        </span>
+      )
+    case ACTIVITY_TYPE.GIANT_MEV_CLAIMED_ETH_FROM_RAGEQUIT:
+      return (
+        <span className="description">
+          Claimed ragequit ETH from Giant Fees and MEV Pool{' '}
+          <a
+            href={makeEtherscanLink(activity.tx)}
+            target="_blank"
+            rel="noreferrer"
+            className={'text-primary'}>
+            (check TX here)
+          </a>
+        </span>
+      )
     default:
       return <></>
   }

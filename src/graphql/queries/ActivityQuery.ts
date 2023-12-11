@@ -31,6 +31,9 @@ export const ActivityQuery = gql`
           "DAO_COMMISSION_UPDATED"
           "SWEEP_REPORTED"
           "FINAL_SWEEP_REPORTED"
+          "NODE_OPERATOR_CLAIMED_UNSTAKED_ETH"
+          "GIANT_SAVETH_CLAIMED_ETH_FROM_RAGEQUIT"
+          "GIANT_MEV_CLAIMED_ETH_FROM_RAGEQUIT"
         ]
         from: $account
       }
