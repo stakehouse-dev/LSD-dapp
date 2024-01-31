@@ -22,6 +22,7 @@ export type TStakehouseSDK = {
   approveSpendingOfKnotInIndex: (...args: any) => any
   joinStakeHouseAndCreateBrand: (...args: any) => any
   batchBLSAuthentication: (...args: any) => any
+  isolateKnotFromOpenIndex: (...args: any) => any
   balanceReport: {
     getFinalisedEpochReport: (...args: any) => any
     authenticateReport: (...args: any) => any
@@ -171,6 +172,7 @@ export type TStakehouseSDK = {
     getLastInteractedTimestampForLPToken: (...args: any) => any
     isEligibleToInteractWithLPToken: (...args: any) => any
     previewPartialETHWithdrawalAmount: (...args: any) => any
+    getCumulativeValidatorIndexes: (...args: any) => any
     batchPartialWithdrawal: (...args: any) => any
     previewPartialWithdrawalClaimableETH: (...args: any) => any
     batchPartialWithdrawalFromGiantSavETHPool: (...args: any) => any

@@ -22,7 +22,7 @@ const NotSupportedMobile: FC = () => {
         </Button>
       </a>
       <a
-        href="https://docs.joinstakehouse.com/protocol/learn/stakehouse"
+        href="https://docs-ipfs.joinstakehouse.com/protocol/learn/stakehouse"
         target="_blank"
         rel="noreferrer"
         className="p-3 gap-4 flex items-center text-base font-semibold text-grey25">

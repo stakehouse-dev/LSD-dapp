@@ -1,0 +1,12 @@
+.utility-card {
+  border: 1px solid transparent;
+
+  background: linear-gradient(#2d2e35, #2d2e35) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, #00ed7b 100%) border-box;
+
+  border-radius: 8px;
+  @apply flex flex-col px-2 py-4 gap-4 text-sm;
+}
+.overlay {
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0) 0%, #121212 66.53%);
+}

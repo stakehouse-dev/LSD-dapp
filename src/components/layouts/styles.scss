@@ -7,14 +7,17 @@
     &__menu-btn {
       @apply cursor-pointer p-2 rounded-full border border-grey500 hover:border-grey100 hover:bg-grey200 transition-all;
     }
+    &__navMenuWrapper {
+      @apply absolute flex items-center;
 
-    &__navMenu {
-      @apply p-1 flex gap-2 border border-grey750 rounded-lg bg-grey800 absolute;
       left: 50%;
       transform: translateX(-50%);
+    }
+    &__navMenu {
+      @apply p-1 flex gap-2 border border-grey750 rounded-lg bg-grey800 items-center;
 
       &__item {
-        @apply rounded-md w-64 h-9 flex items-center justify-center text-grey300 text-sm font-medium hover:bg-grey50 transition-all;
+        @apply rounded-md w-40 h-9 flex items-center justify-center text-grey300 text-sm font-medium hover:bg-grey50 transition-all;
 
         &--active {
           @extend .topbar__navMenu__item;

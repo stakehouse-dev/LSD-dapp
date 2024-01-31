@@ -35,6 +35,8 @@ import {
 } from '@/views'
 
 import { FacilitatorRageQuit } from './views/Facilitator/RageQuit'
+import RunNode from './views/RunNode'
+import Utilities from './views/Utilities'
 
 if (!window.Buffer) {
   window.Buffer = Buffer
@@ -107,6 +109,8 @@ function App() {
                         <Route path="/" element={<LayoutDashboard />}>
                           <Route path="sign-in" element={<WalletConnect />} />
                           <Route index element={<Deposit />} />
+                          <Route path="run-a-node" element={<RunNode />} />
+                          <Route path="utilities" element={<Utilities />} />
                           <Route path="ragequit/:blsKey" element={<RageQuit />} />
                           <Route path="withdrawal/:blsKey" element={<Withdrawal />} />
                           <Route path="withdrawal/:blsKey/status" element={<WithdrawalStatus />} />

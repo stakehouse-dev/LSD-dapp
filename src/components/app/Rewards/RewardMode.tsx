@@ -29,7 +29,8 @@ import {
   useLSDNetworkList,
   useMakeRealTxHash,
   useNetworkBasedLinkFactories,
-  useRewardBalance
+  useRewardBalance,
+  useTotalRewardBalance
 } from '@/hooks'
 import { TLSDNetwork, TMenu } from '@/types'
 import { humanReadableAddress, roundNumber } from '@/utils/global'
@@ -89,6 +90,8 @@ const RewardMode: FC<RewardModeProps> = ({ label, mode, isActive, handleOpen, sr
     refetch
   } = useRewardBalance(mode, selectedToken)
 
+  const { refetch: refetchTotalRewards } = useTotalRewardBalance()
+
   const { data: validatorsData, loading: validatorsLoading } = useQuery(MintedValidators, {
     variables: {
       account: address?.toLowerCase(),
@@ -113,12 +116,16 @@ const RewardMode: FC<RewardModeProps> = ({ label, mode, isActive, handleOpen, sr
     }
 
     if (activeLSD == 'giant_pool' && LSDs) {
-      return LSDs[activeLSD]?.balance ?? 0
+      if (selectedToken === DETH_WITHDRAW_TOKENS[0]) return LSDs[activeLSD]?.dethBalance ?? 0
+      else return LSDs[activeLSD]?.balance ?? 0
     }
 
     if (activeBlsKey)
-      if (blsKeys?.[activeLSD].filter((item) => item.blsKey == activeBlsKey).length)
+      if (blsKeys?.[activeLSD].filter((item) => item.blsKey == activeBlsKey).length) {
+        if (selectedToken === DETH_WITHDRAW_TOKENS[0])
+          return blsKeys?.[activeLSD].filter((item) => item.blsKey == activeBlsKey)[0].dethBalance
         return blsKeys?.[activeLSD].filter((item) => item.blsKey == activeBlsKey)[0].rawBalance
+      }
 
     return 0
   }, [activeLSD, LSDs, activeBlsKey, blsKeys, selectedNetwork.id, mode])
@@ -215,25 +222,32 @@ const RewardMode: FC<RewardModeProps> = ({ label, mode, isActive, handleOpen, sr
   const handleCloseReportBalance = async (submitted?: boolean) => {
     setOpenReportBalance(false)
     if (submitted) {
-      refetch()
+      // refetch()
+      refetchTotalRewards()
     }
   }
 
   const handleOpenReportBalanceModal = () => {
     setOpenReportBalanceModal(true)
   }
-  const handleCloseReportBalanceModal = () => {
+  const handleCloseReportBalanceModal = async (submitted?: boolean) => {
     setOpenReportBalanceModal(false)
+    if (submitted) {
+      refetch()
+      refetchTotalRewards()
+    }
   }
   const handleSubmittedReportBalance = async () => {
     setOpenReportBalanceModal(false)
-    refetch()
+    // refetch()
   }
 
   const errMessage = useMemo(() => {
     if (amount === '') return ''
 
     if (Number(amount) > Number(balance)) {
+      if (selectedToken === DETH_WITHDRAW_TOKENS[0])
+        return 'Burn amount cannot exceed LP balance. (Available LP Balance: ' + balance + ')'
       return 'Insufficient Balance'
     }
 
@@ -420,7 +434,8 @@ const RewardMode: FC<RewardModeProps> = ({ label, mode, isActive, handleOpen, sr
               size="lg"
               disabled={
                 (mode === WITHDRAW_MODE.STAKING ? !Number(amount) : !Number(balance)) ||
-                errMessage.length > 0
+                errMessage.length > 0 ||
+                loading
               }
               onClick={handleClaimEth}>
               Claim

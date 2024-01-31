@@ -18,16 +18,19 @@ const position = {
       ref: 'stakedStakingAmount',
       mode: WITHDRAW_MODE.STAKING,
       icon: <DEthIcon />
+      //href: '/manage/protected-staking'
     },
     {
       label: 'MEV Staking LP',
       ref: 'stakedFeesAmount',
       mode: WITHDRAW_MODE.FEES_MEV
+      //href: '/manage/fees-mev'
     },
     {
       label: 'Node Operator',
       ref: 'stakedNodeAmount',
       mode: WITHDRAW_MODE.NODE_OPERATOR
+      //href: '/manage/node-operator'
     }
   ]
 }
@@ -123,6 +126,7 @@ export const Positions = ({ amountData }: PositionsProps) => {
               key={index}
               label={subItem.label}
               icon={subItem.icon}
+              //href={subItem.href}
               amount={amountData[subItem.ref]}
             />
           ))}

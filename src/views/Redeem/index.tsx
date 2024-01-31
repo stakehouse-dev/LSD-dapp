@@ -111,6 +111,7 @@ export const Redeem = () => {
         .catch((err) => {
           setInitialLoading(false)
           console.log('availableAmount error: ', err)
+          setInitialLoading(false)
         })
     } else {
       setInitialLoading(false)

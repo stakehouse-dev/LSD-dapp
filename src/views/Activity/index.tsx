@@ -58,7 +58,6 @@ const Activity: FC = () => {
           }
         })
     : []
-
   return (
     <div className="activity">
       <div className="content">

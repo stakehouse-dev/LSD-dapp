@@ -54,3 +54,12 @@ export const getLSDValidatorsCount = gql`
     }
   }
 `
+
+export const getLSDValidatorStatus = gql`
+  query getLSDValidatorStatus($blsKey: String) {
+    lsdvalidators(where: { id: $blsKey }) {
+      id
+      status
+    }
+  }
+`

@@ -6,7 +6,7 @@
     "@apollo/client": "^3.6.8",
     "@apollo/explorer": "^0.1.0",
     "@blockswaplab/lsd-wizard": "^3.4.0",
-    "@blockswaplab/stakehouse-sdk": "5.6.16",
+    "@blockswaplab/stakehouse-sdk": "^5.6.26",
     "@craco/craco": "^6.4.5",
     "@headlessui/react": "^1.6.4",
     "@safe-global/safe-ethers-lib": "^1.8.0",

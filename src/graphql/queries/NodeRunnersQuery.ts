@@ -54,3 +54,17 @@ export const NodeRunnerByValidatorQuery = gql`
     }
   }
 `
+
+export const NodeRunnerStakehouseAddressQuery = gql`
+  query NodeRunnerStakehouseAddress($address: String!) {
+    lsdvalidator(id: $address) {
+      smartWallet {
+        id
+        liquidStakingNetwork {
+          id
+          stakehouseAddress
+        }
+      }
+    }
+  }
+`

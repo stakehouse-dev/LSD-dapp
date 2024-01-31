@@ -2,6 +2,7 @@ import './Main.scss'
 
 import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { goerli } from 'wagmi'
 import { useAccount } from 'wagmi'
 
 import AlertCircleIcon from '@/assets/images/alert-circle-no-bg.svg'
@@ -12,9 +13,10 @@ import StakeCheckIcon from '@/assets/images/icon-check-stake.svg'
 import FeesIcon from '@/assets/images/icon-fees.svg'
 import NodeIcon from '@/assets/images/icon-node.svg'
 import StakeIcon from '@/assets/images/icon-stake.svg'
-import { ModalWalletConnect } from '@/components/app/Modals'
+import { ModalWalletConnect, ModalWarning } from '@/components/app/Modals'
 import { Button } from '@/components/shared'
 import { DEPOSIT_MODE } from '@/constants'
+import { config } from '@/constants/environment'
 import { useCustomAccount } from '@/hooks'
 
 import { DepositFooter } from './Footer'
@@ -28,6 +30,8 @@ export const Main: FC<MainProps> = ({ handleModeChange }) => {
   const { account } = useCustomAccount()
   const address = account?.address
   const navigate = useNavigate()
+
+  const [isWarningModalOpen, setIsWarningModalOpen] = useState<boolean>(true)
 
   const [openWalletModal, setOpenWalletModal] = useState(false)
 
@@ -44,7 +48,7 @@ export const Main: FC<MainProps> = ({ handleModeChange }) => {
 
   return (
     <div className="content">
-      <div className=" relative p-4 bg-red500 rounded-xl gap-1 flex flex-col items-center mb-6">
+      <div className="p-4 bg-red500 rounded-xl gap-1 flex flex-col items-center mb-6">
         <div className="text-sm text-red400 font-semibold flex items-center gap-1">
           <img src={AlertCircleIcon} alt="icon" />
           If you have staked as a node operator
@@ -143,6 +147,9 @@ export const Main: FC<MainProps> = ({ handleModeChange }) => {
       </div>
       {!isConnected && <div className="content__comment">Connect a wallet to continue</div>}
       {isConnected && <DepositFooter />}
+      {isConnected && isWarningModalOpen && config.networkId == goerli.id && (
+        <ModalWarning open={isWarningModalOpen} onClose={() => setIsWarningModalOpen(false)} />
+      )}
       <ModalWalletConnect open={openWalletModal} onClose={handleCloseWalletModal} />
     </div>
   )

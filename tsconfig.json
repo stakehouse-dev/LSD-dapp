@@ -28,6 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     "custom.d.ts",
-    "types"
+    "types",
+    "README.md"
   ]
 }

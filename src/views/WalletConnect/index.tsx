@@ -116,11 +116,14 @@ const WalletConnect = () => {
       })}
       <p className="content__guide">
         By connecting a wallet, you agree to Blockswap Labs&apos;{' '}
-        <a href="https://dapp.joinstakehouse.com/terms" target="_blank" rel="noreferrer">
+        <a href="https://dapp-ipfs.joinstakehouse.com/terms" target="_blank" rel="noreferrer">
           Terms of Service
         </a>{' '}
         and acknowledge that you have read and understand the{' '}
-        <a href="https://dapp.joinstakehouse.com/RiskDisclaimer" target="_blank" rel="noreferrer">
+        <a
+          href="https://dapp-ipfs.joinstakehouse.com/RiskDisclaimer"
+          target="_blank"
+          rel="noreferrer">
           Stakehouse Protocol Disclaimer.
         </a>
       </p>

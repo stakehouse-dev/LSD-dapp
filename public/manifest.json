@@ -6,6 +6,41 @@
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
-  "providedBy": { "name": "Blockswap Network", "url": "https://www.blockswap.network/" },
-  "description": "Stake a validator with 4 ETH. Start an LSD network in 60 seconds. Unique yield with fungible derivatives. Empowering home stakers."
+  "providedBy": {
+    "name": "Blockswap Network",
+    "url": "https://www.blockswap.network/"
+  },
+  "description": "Stake a validator with 4 ETH. Start an LSD network in 60 seconds. Unique yield with fungible derivatives. Empowering home stakers.",
+  "cards": [
+    {
+      "title": "Balance Report",
+      "subtitle": "Update validator state",
+      "tooltip": "Check if there are any rewards or slashings on your validator to claim rewards.",
+      "appType": "popUp",
+      "component": "ReportBalance",
+      "inputType": "blsKey"
+    },
+    {
+      "title": "Fren Delegation",
+      "subtitle": "Stake ETH with your Fren",
+      "tooltip": "Select a specific validator to stake your ETH into.",
+      "externalLink": "https://fren.joinstakehouse.com",
+      "appType": "external"
+    },
+    {
+      "title": "savETH Curation",
+      "subtitle": "Bring savETH back",
+      "tooltip": "If your validator's ETH is in the Open Index and you want it back. Use this function.",
+      "appType": "popUp",
+      "component": "EtherCurate",
+      "inputType": "blsKey"
+    },
+    {
+      "title": "dETH Facilitator",
+      "subtitle": "Exchange dETH for ETH",
+      "tooltip": "Use the facilitator to easily go between ETH an dETH without a DEX.",
+      "url": "/manage/facilitator",
+      "appType": "internalPage"
+    }
+  ]
 }

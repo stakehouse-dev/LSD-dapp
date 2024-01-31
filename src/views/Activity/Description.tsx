@@ -389,6 +389,32 @@ const Description: FC<{ activity: any; blsKeyToTxHashes: any }> = ({
           </a>
         </span>
       )
+    case ACTIVITY_TYPE.ETH_CLAIMED_FROM_GIANT_POOL_PARTIAL_WITHDRAWAL:
+      return (
+        <span className="description">
+          ETH Claimed from Giant Pool Partial Withdrawal{' '}
+          <a
+            href={makeEtherscanLink(activity.tx)}
+            target="_blank"
+            rel="noreferrer"
+            className={'text-primary'}>
+            (check TX here)
+          </a>
+        </span>
+      )
+    case ACTIVITY_TYPE.ETH_CLAIMED_FROM_PARTIAL_WITHDRAWAL:
+      return (
+        <span className="description">
+          ETH Claimed from Partial Withdrawal (Fren){' '}
+          <a
+            href={makeEtherscanLink(activity.tx)}
+            target="_blank"
+            rel="noreferrer"
+            className={'text-primary'}>
+            (check TX here)
+          </a>
+        </span>
+      )
     default:
       return <></>
   }

@@ -57,7 +57,14 @@ const IndexChart: FC = () => {
           <Spinner size={64} />
         </ChartLoadingOverlay>
       )}
-      <BSChart labels={labels} lines={lines} xLabel="Epoch" yLabel="" minHeight={chartMinHeight} />
+      <BSChart
+        hideLegend={true}
+        labels={labels}
+        lines={lines}
+        xLabel="Epoch"
+        yLabel=""
+        minHeight={chartMinHeight}
+      />
     </BSChartContainer>
   )
 }

@@ -140,17 +140,17 @@ const ChartValidator: FC<{ knot: any; isInTable?: boolean }> = ({ knot, isInTabl
 
       return [
         {
-          values: validatorAPRs,
+          values: totalValues,
           color: '#00ed78',
           name: 'Validator APR',
           type: 'linear'
-        },
-        {
-          values: totalValues,
-          color: '#D1ADFF',
-          name: 'Consensus Layer APR',
-          type: 'linear'
         }
+        // {
+        //   values: totalValues,
+        //   color: '#D1ADFF',
+        //   name: 'Consensus Layer APR',
+        //   type: 'linear'
+        // }
       ]
     }
 
@@ -181,18 +181,18 @@ const ChartValidator: FC<{ knot: any; isInTable?: boolean }> = ({ knot, isInTabl
 
       const reportBalances: any[] = []
 
-      if (availableBalanceReports.length > 0) {
-        labels.forEach((label: string, idx: number) => {
-          if (availableBalanceReports.includes(`${label}`)) {
-            reportBalances.push(totalValues[idx])
-          } else {
-            reportBalances.push(null)
-          }
-        })
-        setNoBalanceReport(false)
-      } else {
-        setNoBalanceReport(true)
-      }
+      // if (availableBalanceReports.length > 0) {
+      //   labels.forEach((label: string, idx: number) => {
+      //     if (availableBalanceReports.includes(`${label}`)) {
+      //       reportBalances.push(totalValues[idx])
+      //     } else {
+      //       reportBalances.push(null)
+      //     }
+      //   })
+      //   setNoBalanceReport(false)
+      // } else {
+      //   setNoBalanceReport(true)
+      // }
 
       return {
         values: reportBalances,
@@ -238,7 +238,7 @@ const ChartValidator: FC<{ knot: any; isInTable?: boolean }> = ({ knot, isInTabl
           <BSChart
             labels={labels}
             lines={lines}
-            dots={dots}
+            // dots={dots}
             xLabel=""
             yLabel=""
             minHeight={chartMinHeight}

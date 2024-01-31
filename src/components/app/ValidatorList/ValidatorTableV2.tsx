@@ -216,7 +216,7 @@ export const ValidatorTableV2: FC<ValidatorTableProps> = ({
                         onClick={(e) => {
                           e.stopPropagation()
                           window.open(
-                            `https://joinstakehouse.com/monitoring/index/${
+                            `https://site-ipfs.joinstakehouse.com/monitoring/index/${
                               validator_indexes[row[1]]
                             }`,
                             '_blank'

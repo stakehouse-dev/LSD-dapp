@@ -6,7 +6,7 @@
 
 LSD Dapp allows you to interact with the Liquid Staking Derivative Network Protocol smart contracts built on top of the Stakehouse protocol.
 
-For more information, please take a look at the docs: https://docs.joinstakehouse.com/lsd/overview
+For more information, please take a look at the docs: https://docs-ipfs.joinstakehouse.com/lsd/overview
 
 ## Software is provided as is
 
@@ -40,6 +40,72 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+## Enabling the user portfolio (Stakehouse ETL)
+
+The LSD dapp has a user portfolio feature which allows liquidity providers for LSD networks to be able to trace, down to the validator where the ETH in an LSD pool goes. In the open source code, this feature (located in the `Manage` section of the dapp) is not enabled by default. The feature is not enabled by default because it requires the availability of the [Stakehouse ETL](https://github.com/stakehouse-dev/stakehouse-etl) infrastructure. Assuming that the Stakehouse ETL is available, fully synced and operation, this feature can be enabled:
+
+![portfolio](portfolio.png)
+
+To do this, the following file needs to be modified:
+
+```
+src/components/app/Manage/Positions.tsx
+```
+
+In the `Positions.tsx`, the following object can be found:
+
+```
+const position = {
+  label: 'Staked ETH Portfolio',
+  subPositions: [
+    {
+      label: 'Protected Staking',
+      ref: 'stakedStakingAmount',
+      mode: WITHDRAW_MODE.STAKING,
+      icon: <DEthIcon />
+      //href: '/manage/protected-staking'
+    },
+    {
+      label: 'MEV Staking LP',
+      ref: 'stakedFeesAmount',
+      mode: WITHDRAW_MODE.FEES_MEV
+      //href: '/manage/fees-mev'
+    },
+    {
+      label: 'Node Operator',
+      ref: 'stakedNodeAmount',
+      mode: WITHDRAW_MODE.NODE_OPERATOR
+      //href: '/manage/node-operator'
+    }
+  ]
+}
+```
+
+Removing the comments on the `href` will enable the portfolios. In addition, the following DOM item needs updating:
+
+```
+<StatSubItem
+              key={index}
+              label={subItem.label}
+              icon={subItem.icon}
+              //href={subItem.href}
+              amount={amountData[subItem.ref]}
+            />
+```
+
+Finally, the ETL configuration (URLs) need to be injected. In order to do that, the following file needs to be updated:
+
+```
+src/constants/index.ts
+```
+
+where the endpoint that needs updating is called `API_ENDPOINT`.
+
+In order to run your own ETL instance, please find the following AWS deployable code:
+```
+https://github.com/stakehouse-dev/stakehouse-etl
+```
+
 ## Contributing
 
 We welcome contributions to LSD Dapp. If you'd like to contribute, please follow these guidelines:
@@ -55,14 +121,8 @@ We welcome contributions to LSD Dapp. If you'd like to contribute, please follow
 If you wish to deploy and use the Dapp and allow node operators to register only with your selected LSD networks, please follow these guidelines:
 
 1. Fork the project.
-2. Open `src/components/app/Deposit/NodeOperator.tsx`
-3. Replace `networkList` on line 56 with your list of selected LSD network id and ticker as follows:
-```js
-const networkList = [{
-    id: <YOUR_NETWORK_ID>,
-    ticker: <YOUR_TICKER>
-}]
-```
+2. Open `src/graphql/queries/LSDNetworks.ts`.
+3. Replace `liquidStakingNetworks(first: 1000)` on line 41 with `liquidStakingNetworks(where:{ticker_in:[<LIST_OF_TICKERS>]})`.
 
 ## License
 

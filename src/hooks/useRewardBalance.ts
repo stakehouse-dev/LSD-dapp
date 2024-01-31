@@ -71,23 +71,29 @@ export const useRewardBalance = (mode: WITHDRAW_MODE, selectedToken: TokenT) => 
               await sdk?.wizard.previewClaimableProtectedStakingLP(address?.toLowerCase() ?? '')
             )
             giantDETHBalance = `${Number(rawGiantBalance)}`
-            ////////////////////////////////////////////////////////////////////////////////////////
-            if (selectedToken === DETH_WITHDRAW_TOKENS[0]) {
-              giantBalance = Number(rawGiantBalance)
-            } else if (protectedBatches) {
+            if (protectedBatches && protectedBatches.length != 0) {
               const savETHVaultAddresses = protectedBatches.map(
                 (pBatch: any) => pBatch.vaultLPToken.liquidStakingNetwork.savETHPool
               )
               const lpTokenAddresses = protectedBatches.map((pBatch: any) => [
                 pBatch.vaultLPToken.id
               ])
-              const result = await sdk?.wizard.previewPartialWithdrawalClaimableETH(
-                address,
-                savETHVaultAddresses,
-                lpTokenAddresses
-              )
-              giantETHBalance = ethers.utils.formatEther(result)
-              giantBalance = Number(ethers.utils.formatEther(result))
+              try {
+                const result = await sdk?.wizard.previewPartialWithdrawalClaimableETH(
+                  address,
+                  savETHVaultAddresses,
+                  lpTokenAddresses
+                )
+                giantETHBalance = ethers.utils.formatEther(result)
+              } catch (err) {
+                giantETHBalance = `0`
+              }
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////
+            if (selectedToken === DETH_WITHDRAW_TOKENS[0]) {
+              giantBalance = Number(rawGiantBalance) + Number(giantETHBalance)
+            } else {
+              giantBalance = Number(giantETHBalance)
             }
             totalBalance += giantBalance
           } catch (error) {
@@ -136,7 +142,7 @@ export const useRewardBalance = (mode: WITHDRAW_MODE, selectedToken: TokenT) => 
             }
 
             if (selectedToken === DETH_WITHDRAW_TOKENS[0]) {
-              balance = balanceDETH
+              balance = balanceDETH + balanceETH
             } else {
               balance = balanceETH
             }

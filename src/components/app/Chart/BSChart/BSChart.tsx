@@ -93,12 +93,12 @@ export const BSChart: FC<BSChartProps> = (props) => {
 
       {isLegendVisible && (
         <LegendStyled isXAxisNamed={!!props.xLabel}>
-          {props.lines.length > 1 &&
+          {props.lines.length > 0 &&
             props.lines.map((line, lineIdx) => (
               <BSCheckbox
                 key={`chart-line__${lineIdx}`}
                 value={!!linesVisibilityMap[lineIdx]}
-                disabled={noBalanceReport && line.name === 'Validator APR'}
+                disabled={noBalanceReport}
                 onChange={(isVisible) => changeLineVisibility(isVisible, lineIdx)}
                 color={line.color || BS_CHART_DEFAULT_LINE_COLOR}>
                 {line.name || `Line ${lineIdx + 1}`}

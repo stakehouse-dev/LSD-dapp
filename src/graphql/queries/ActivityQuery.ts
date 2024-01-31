@@ -34,6 +34,8 @@ export const ActivityQuery = gql`
           "NODE_OPERATOR_CLAIMED_UNSTAKED_ETH"
           "GIANT_SAVETH_CLAIMED_ETH_FROM_RAGEQUIT"
           "GIANT_MEV_CLAIMED_ETH_FROM_RAGEQUIT"
+          "ETH_CLAIMED_FROM_GIANT_POOL_PARTIAL_WITHDRAWAL"
+          "ETH_CLAIMED_FROM_PARTIAL_WITHDRAWAL"
         ]
         from: $account
       }

@@ -1,11 +1,14 @@
+import { useQuery } from '@apollo/client'
 import { BigNumber } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
 import { useCallback, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 
 import client from '@/graphql/client'
+import { GetLPTokenQuery } from '@/graphql/queries/LPToken'
 import { LSDNetworksQuery } from '@/graphql/queries/LSDNetworks'
 import { SmartWalletQuery } from '@/graphql/queries/NodeRunners'
+import { GetProtectedBatchesQuery } from '@/graphql/queries/PortfolioQuery'
 import { TLSDNetwork } from '@/types'
 
 import { useCustomAccount, useLSDNetworkList, useSDK } from '.'
@@ -23,23 +26,67 @@ export const useTotalRewardBalance = () => {
 
   const { list } = useLSDNetworkList()
 
+  const { data: { protectedBatches } = {} } = useQuery(GetProtectedBatchesQuery, {
+    variables: {
+      account: account?.address.toLowerCase()
+    },
+    skip: !account
+  })
+
   const fetch = useCallback(async () => {
     if (sdk && list.length > 0 && address) {
       setLoading(true)
       let rewardResult: any = {}
 
       let totalProtectedStakingBalance = BigNumber.from(0),
-        totalFeesAndMevBalance = BigNumber.from(0)
+        totalFeesAndMevBalance = BigNumber.from(0),
+        listOfProtectedStakingBalance: any[] = []
 
       try {
         const result = await sdk?.wizard.getLPTokenBalances(address ?? '')
         const {
           totalProtectedStakingBalance: _totalProtectedStakingBalance,
-          totalFeesAndMevBalance: _totalFeesAndMevBalance
+          totalFeesAndMevBalance: _totalFeesAndMevBalance,
+          listOfProtectedStakingBalance: _listOfProtectedStakingBalance
         } = result
 
         totalFeesAndMevBalance = _totalFeesAndMevBalance
         totalProtectedStakingBalance = _totalProtectedStakingBalance
+
+        listOfProtectedStakingBalance = _listOfProtectedStakingBalance
+
+        for (let i = 0; i < listOfProtectedStakingBalance.length; i += 1) {
+          const item = listOfProtectedStakingBalance[i]
+
+          const {
+            data: { lptokens }
+          } = await client.query({
+            query: GetLPTokenQuery,
+            variables: {
+              blsPublicKey: item.blsPublicKey,
+              userAddress: address?.toLowerCase()
+            }
+          })
+
+          if (lptokens && lptokens.length > 0) {
+            const lpTokenAdressses = lptokens.map((token: any) => token.id)
+            const savETHAddresses = lptokens.map(
+              (token: any) => token.liquidStakingNetwork.savETHPool
+            )
+
+            try {
+              const result = await sdk?.wizard.previewPartialETHWithdrawalAmount(
+                savETHAddresses[0],
+                address?.toLowerCase(),
+                lpTokenAdressses
+              )
+
+              totalProtectedStakingBalance = totalProtectedStakingBalance.add(result)
+            } catch (err) {
+              console.log('previewPartialETHWithdrawalAmount error: ', err)
+            }
+          }
+        }
       } catch (error) {
         console.log('getLPTokenBalances error: ', error)
       }
@@ -49,6 +96,18 @@ export const useTotalRewardBalance = () => {
         stakingBalance = await sdk?.wizard.previewClaimableProtectedStakingLP(
           address?.toLowerCase() ?? ''
         )
+        if (protectedBatches && protectedBatches.length != 0) {
+          const savETHVaultAddresses = protectedBatches.map(
+            (pBatch: any) => pBatch.vaultLPToken.liquidStakingNetwork.savETHPool
+          )
+          const lpTokenAddresses = protectedBatches.map((pBatch: any) => [pBatch.vaultLPToken.id])
+          const result = await sdk?.wizard.previewPartialWithdrawalClaimableETH(
+            address,
+            savETHVaultAddresses,
+            lpTokenAddresses
+          )
+          stakingBalance = stakingBalance.add(result)
+        }
       } catch (err) {
         console.log('staking balance error: ', err)
       }

@@ -26,4 +26,7 @@ export const beaconUrls: BeaconUrls = {
   [goerli.id]: `https://prater.beaconcha.in`
 }
 
-export const BEACON_NODE_URL = process.env.REACT_APP_BEACON_NODE_URL
+export const BEACON_NODE_URL =
+  process.env.REACT_APP_NETWORK_ID === `${goerli.id}`
+    ? process.env.REACT_APP_GOERLI_BEACON_NODE_URL
+    : process.env.REACT_APP_MAINNET_BEACON_NODE_URL
