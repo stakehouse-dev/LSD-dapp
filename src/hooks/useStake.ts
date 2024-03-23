@@ -17,8 +17,8 @@ export const useStake = () => {
 
   const handleApproveStake = useCallback(
     async (
-      password: string,
-      keystores: KeystoreT[],
+      password: string | null,
+      keystores: KeystoreT[] | null,
       blsKeys: string[],
       liquidStakingManagerAddress: string
     ) => {
@@ -27,9 +27,14 @@ export const useStake = () => {
         setLoading(true)
         let batchDepositData = []
         try {
-          batchDepositData = await sdk.wizard.getBatchDepositDataFromKeystores(keystores, password)
+          for (let i = 0; i < blsKeys.length; ++i) {
+            const depositData = await sdk.utils.getDepositDataFromOnChainRegistrationInfo(
+              blsKeys[i]
+            )
+            batchDepositData.push(depositData[0])
+          }
         } catch (err) {
-          console.log('getBatchDepositDataFromKeystores err: ', err)
+          console.log('getDepositDataFromOnChainRegistrationInfo err: ', err)
           return null
         }
 

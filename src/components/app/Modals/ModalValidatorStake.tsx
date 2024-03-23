@@ -13,8 +13,6 @@ import {
   Modal,
   ModalDialog,
   Spinner,
-  TextInput,
-  UploadKeystoreFileBatch,
   ValidatorRegisterCard
 } from '@/components/shared'
 import {
@@ -28,6 +26,7 @@ import {
 import { KeystoreDataItem, KeystoreT, TFunds, TLSDValidator } from '@/types'
 import { handleErr, notifyHash, noty, parseFileAsJson } from '@/utils/global'
 
+import { ValidatorList } from '../Manage/ValidatorList'
 import styles from './styles.module.scss'
 
 interface IProps {
@@ -52,9 +51,6 @@ const ModalValidatorStake: FC<IProps> = ({
 }) => {
   const [step, setStep] = useState<number>(1)
   const [firstStep, setFirstStep] = useState<number>(1)
-  const [keystoreObjects, setKeystoreObjects] = useState<KeystoreT[]>([])
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [passwordValidationErr, setPasswordValidationErr] = useState<PasswordValidationT>()
   const [txResult, setTxResult] = useState<any>()
   const [error, setError] = useState<any>()
   const [updatedFunds, setUpdatedFunds] = useState<TFunds[]>([])
@@ -86,16 +82,6 @@ const ModalValidatorStake: FC<IProps> = ({
   useEffect(() => {
     fetchFunds()
   }, [fetchFunds])
-
-  useEffect(() => {
-    if (!confirmPassword) {
-      return setPasswordValidationErr({ required: 'Password is required' })
-    } else if (confirmPassword.length < 8) {
-      return setPasswordValidationErr({ length: 'Your password must be 8 or more characters.' })
-    } else {
-      setPasswordValidationErr(undefined)
-    }
-  }, [confirmPassword])
 
   const totalUpdatedRequiredSavETH = useMemo(() => {
     if (updatedFunds.length > 0) {
@@ -130,20 +116,11 @@ const ModalValidatorStake: FC<IProps> = ({
     }
   }, [totalUpdatedRequiredSavETH, totalUpdatedRequiredFeeMevETH])
 
-  const handleUploadedAll = async (data: KeystoreDataItem[]) => {
-    const keystores = await Promise.all(
-      data
-        .filter((item) => !!item.keystoreFile)
-        .map((item) => parseFileAsJson<KeystoreT>(item.keystoreFile!))
-    )
-    setKeystoreObjects(keystores)
-  }
-
   const handleApprove = async () => {
     try {
       const result = await handleApproveStake(
-        confirmPassword,
-        keystoreObjects,
+        null,
+        null,
         blsPublicKeys.map((key) => key.id),
         liquidStakingManagerAddress
       )
@@ -152,8 +129,8 @@ const ModalValidatorStake: FC<IProps> = ({
         await result.wait()
         setTxResult(result)
       } else {
-        noty('Please ensure the password and validator file are correct.')
-        setError('Please ensure the password and validator file are correct.')
+        noty('Please ensure the validator file is correct.')
+        setError('Please ensure the validator file is correct.')
       }
     } catch (err) {
       console.log('approve err: ', err)
@@ -210,8 +187,6 @@ const ModalValidatorStake: FC<IProps> = ({
 
   const handleClear = () => {
     setStep(1)
-    setKeystoreObjects([])
-    setConfirmPassword('')
     setTxResult(undefined)
     setError(undefined)
     setUpdatedFunds([])
@@ -277,42 +252,16 @@ const ModalValidatorStake: FC<IProps> = ({
             active={step === 1}
             done={step === 2}
             stepNum={1}
-            title="Confirm your Keystore file"
-            tooltip="Make sure you are uploading the correct validator signing key.">
-            <UploadKeystoreFileBatch
-              blsKeys={blsPublicKeys.map((pubKey) => pubKey.id)}
-              onAllUploaded={handleUploadedAll}
-              onDeleteFile={() => setKeystoreObjects([])}
-            />
+            title="Confirm your validator address"
+            tooltip="Make sure you are selecting the validator you want to stake">
+            <ValidatorList blsKeys={blsPublicKeys.map((pubKey) => pubKey.id)} />
             <form
               className="flex flex-col w-full gap-2"
               onSubmit={(e) => {
                 e.preventDefault()
                 setStep(2)
               }}>
-              <TextInput
-                label="Confirm Keystore Password"
-                type="password"
-                disabled={keystoreObjects.length < blsPublicKeys.length}
-                className={styles.input}
-                tooltip="Without this password, you will not be able to stake and run your validator."
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              {passwordValidationErr?.required && (
-                <span className={styles.inputErr}>{passwordValidationErr.required}</span>
-              )}
-              {passwordValidationErr?.length && (
-                <span className={styles.inputErr}>{passwordValidationErr.length}</span>
-              )}
-              <span className="text-primary text-sm text-left">
-                Ensure the password is correct or else the transaction will fail.
-              </span>
-              <Button
-                variant="primary"
-                className="h-12 w-full"
-                disabled={!confirmPassword || keystoreObjects.length < blsPublicKeys.length}
-                onClick={() => setStep(2)}>
+              <Button variant="primary" className="h-12 w-full" onClick={() => setStep(2)}>
                 Confirm
               </Button>
             </form>
@@ -379,10 +328,7 @@ const ModalValidatorStake: FC<IProps> = ({
                   <Spinner size={30} />
                 </div>
               ) : (
-                <Button
-                  size="lg"
-                  disabled={keystoreObjects.length === 0 || !confirmPassword || firstStep < 3}
-                  onClick={handleApprove}>
+                <Button size="lg" disabled={firstStep < 3} onClick={handleApprove}>
                   Approve Transaction
                 </Button>
               )}

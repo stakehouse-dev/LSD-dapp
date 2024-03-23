@@ -82,6 +82,7 @@ export type TStakehouseSDK = {
     getStakehouse: (...args: any) => any
     getBatchPersonalSignInitials: (...args: any) => any
     minimumTopUpRequired: (...args: any) => any
+    getDepositDataFromOnChainRegistrationInfo: (...args: any) => any
   }
   subgraph: {
     getAllIndexesOwnedByAUser: (...args: any) => any

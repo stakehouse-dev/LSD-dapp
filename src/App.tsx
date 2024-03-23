@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { WalletConnectConnector } from '@wagmi/core/connectors/walletConnect'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { IntercomProvider } from 'react-use-intercom'
 import { configureChains, createClient, goerli, mainnet, WagmiConfig } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { SafeConnector } from 'wagmi/connectors/safe'
@@ -97,50 +98,55 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <Router>
-      <WagmiConfig client={client}>
-        <QueryClientProvider client={queryClient}>
-          <ApolloProvider client={GraphqlClient}>
-            <BlockswapSDKProvider>
-              <UserProvider>
-                <StakingStoreProvider>
-                  <GraphqlProvider>
-                    <RewardsProvider>
-                      <Routes>
-                        <Route path="/" element={<LayoutDashboard />}>
-                          <Route path="sign-in" element={<WalletConnect />} />
-                          <Route index element={<Deposit />} />
-                          <Route path="run-a-node" element={<RunNode />} />
-                          <Route path="utilities" element={<Utilities />} />
-                          <Route path="ragequit/:blsKey" element={<RageQuit />} />
-                          <Route path="withdrawal/:blsKey" element={<Withdrawal />} />
-                          <Route path="withdrawal/:blsKey/status" element={<WithdrawalStatus />} />
-                          <Route path="manage" element={<Manage />} />
-                          <Route path="manage/activity" element={<Activity />} />
-                          <Route path="manage/withdraw" element={<Withdraw />} />
-                          <Route path="manage/:activeTab/:activeMode" element={<Manage />} />
-                          <Route path="manage/protected-staking" element={<ProtectedStaking />} />
-                          <Route path="manage/fees-mev" element={<FeesMev />} />
-                          <Route path="facilitator/ragequit" element={<FacilitatorRageQuit />} />
-                          <Route path="manage/node-operator" element={<NodeOperator />} />
-                          <Route path="manage/fee-compliant-list" element={<FeeCompliant />} />
-                          <Route path="manage/redeem" element={<Redeem />} />
-                          <Route path="manage/facilitator" element={<Facilitator />} />
-                          <Route path=":mode" element={<Deposit />} />
-                        </Route>
-                        <Route
-                          path="/graphql-playground/:mode/:account"
-                          element={<GraphqlPlayground />}
-                        />
-                      </Routes>
-                    </RewardsProvider>
-                  </GraphqlProvider>
-                </StakingStoreProvider>
-              </UserProvider>
-            </BlockswapSDKProvider>
-          </ApolloProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </WagmiConfig>
+      <IntercomProvider appId="qggu7t5c" apiBase="https://api-iam.intercom.io" autoBoot>
+        <WagmiConfig client={client}>
+          <QueryClientProvider client={queryClient}>
+            <ApolloProvider client={GraphqlClient}>
+              <BlockswapSDKProvider>
+                <UserProvider>
+                  <StakingStoreProvider>
+                    <GraphqlProvider>
+                      <RewardsProvider>
+                        <Routes>
+                          <Route path="/" element={<LayoutDashboard />}>
+                            <Route path="sign-in" element={<WalletConnect />} />
+                            <Route index element={<Deposit />} />
+                            <Route path="run-a-node" element={<RunNode />} />
+                            <Route path="utilities" element={<Utilities />} />
+                            <Route path="ragequit/:blsKey" element={<RageQuit />} />
+                            <Route path="withdrawal/:blsKey" element={<Withdrawal />} />
+                            <Route
+                              path="withdrawal/:blsKey/status"
+                              element={<WithdrawalStatus />}
+                            />
+                            <Route path="manage" element={<Manage />} />
+                            <Route path="manage/activity" element={<Activity />} />
+                            <Route path="manage/withdraw" element={<Withdraw />} />
+                            <Route path="manage/:activeTab/:activeMode" element={<Manage />} />
+                            <Route path="manage/protected-staking" element={<ProtectedStaking />} />
+                            <Route path="manage/fees-mev" element={<FeesMev />} />
+                            <Route path="facilitator/ragequit" element={<FacilitatorRageQuit />} />
+                            <Route path="manage/node-operator" element={<NodeOperator />} />
+                            <Route path="manage/fee-compliant-list" element={<FeeCompliant />} />
+                            <Route path="manage/redeem" element={<Redeem />} />
+                            <Route path="manage/facilitator" element={<Facilitator />} />
+                            <Route path=":mode" element={<Deposit />} />
+                          </Route>
+                          <Route
+                            path="/graphql-playground/:mode/:account"
+                            element={<GraphqlPlayground />}
+                          />
+                        </Routes>
+                      </RewardsProvider>
+                    </GraphqlProvider>
+                  </StakingStoreProvider>
+                </UserProvider>
+              </BlockswapSDKProvider>
+            </ApolloProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </WagmiConfig>
+      </IntercomProvider>
     </Router>
   )
 }

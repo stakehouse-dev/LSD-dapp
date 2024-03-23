@@ -6,7 +6,7 @@
 
 LSD Dapp allows you to interact with the Liquid Staking Derivative Network Protocol smart contracts built on top of the Stakehouse protocol.
 
-For more information, please take a look at the docs: https://docs-ipfs.joinstakehouse.com/lsd/overview
+For more information, please take a look at the docs: https://docs.joinstakehouse.com/lsd/overview
 
 ## Software is provided as is
 
@@ -102,6 +102,7 @@ src/constants/index.ts
 where the endpoint that needs updating is called `API_ENDPOINT`.
 
 In order to run your own ETL instance, please find the following AWS deployable code:
+
 ```
 https://github.com/stakehouse-dev/stakehouse-etl
 ```

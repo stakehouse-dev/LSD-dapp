@@ -252,7 +252,7 @@ export const ValidatorTable: FC<ValidatorTableProps> = ({ knots: _knots, filter,
                             onClick={(e) => {
                               e.stopPropagation()
                               window.open(
-                                `https://site-ipfs.joinstakehouse.com/monitoring/index/${cell}`,
+                                `https://joinstakehouse.com/monitoring/index/${cell}`,
                                 '_blank'
                               )
                             }}>

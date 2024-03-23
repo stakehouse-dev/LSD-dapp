@@ -379,7 +379,8 @@ export const Validators: FC = () => {
               <div className="flex-1">
                 <Button
                   className="w-full"
-                  onClick={handleOpenConfirmStakeDlg}
+                  // onClick={handleOpenConfirmStakeDlg}
+                  onClick={handleOpenStakeDlg}
                   disabled={[BATCH_FLOW.MINTING, BATCH_FLOW.NONE].includes(batchFlow)}>
                   Stake
                 </Button>

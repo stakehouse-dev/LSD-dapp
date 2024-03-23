@@ -89,13 +89,6 @@ export const useWithdrawBalance = (isNodeRunner: boolean, mode?: WITHDRAW_MODE) 
       const rqValidators: any = {},
         LSDs: any = {}
       try {
-        if (!isNodeRunner) {
-          setRageQuitLSDs({})
-          setRageQuitValidators({})
-          setLoading(false)
-          return
-        }
-
         const data = await sdk?.wizard.getClaimableUnstakedETH(address)
         if (!data) {
           setRageQuitLSDs({})
